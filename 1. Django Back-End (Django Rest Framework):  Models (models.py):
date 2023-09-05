@@ -1,0 +1,23 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    category = models.CharField(max_length=100, choices=[('Sci-Fi', 'Sci-Fi'), ('Fiction', 'Fiction'), ('Comedy', 'Comedy')])
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15)
+    address = models.TextField()
+    college = models.CharField(max_length=100)
+    borrowed_books = models.ManyToManyField(Book, through='UserBook')
+
+class UserBook(models.Model):
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    date_borrowed = models.DateField(auto_now_add=True)
+
+class Order(models.Model):
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    order_date = models.DateTimeField(auto_now_add=True)
