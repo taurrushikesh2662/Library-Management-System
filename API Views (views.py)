@@ -1,0 +1,18 @@
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .models import Book, UserProfile, Order
+from .serializers import BookSerializer, UserProfileSerializer, OrderSerializer
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
