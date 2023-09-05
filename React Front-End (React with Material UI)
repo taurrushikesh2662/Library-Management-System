@@ -1,0 +1,42 @@
+# User Signup Form (SignupForm.js)
+import React from 'react';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+const SignupForm = () => {
+  const initialValues = {
+    username: '',
+    password: '',
+    confirmPassword: '',
+    // Other user fields
+  };
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required('Username is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Confirm Password is required'),
+    // Other validations for user fields
+  });
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    // Handle form submission and API request to create a new user
+  };
+
+  return (
+    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+      <Form>
+        <div>
+          <label htmlFor="username">Username</label>
+          <Field type="text" id="username" name="username" />
+          <ErrorMessage name="username" component="div" />
+        </div>
+        {/* Other form fields */}
+        <button type="submit">Sign Up</button>
+      </Form>
+    </Formik>
+  );
+};
+
+export default SignupForm;
